@@ -1,0 +1,29 @@
+spring:
+   cloud:
+     azure:
+       eventhubs:
+         connection-string: Endpoint=sb://rajaeventhub.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=587o/EIWX3RAPBtTsrv6Hz3cnMmGpjFCcLM/ul6IwSI=
+         processor:
+           checkpoint-store:
+             account-name: storageaccevent
+             account-key: 3IIfHTgTvo+Kl1oG5eI33ZQuwtijoRCmeNYvTW6cFenkvpbozGYr/msphig8QNbBUU69bzvNm7vj+AStxp7laQ==
+             container-name: eventcontainer
+     stream:
+       bindings:
+         consume-in-0:
+           destination: sendevent
+           group: $Default
+         supply-out-0:
+           destination: sendevent
+
+       eventhubs:
+         bindings:
+           consume-in-0:
+             consumer:
+               checkpoint:
+                 mode: MANUAL
+       function:
+         definition: consume;supply;
+       poller:
+         initial-delay: 0
+         fixed-delay: 1000
